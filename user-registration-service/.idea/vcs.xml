@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/../config-repos/application-configuration" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../config-repos/application-configuration-development" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../config-repos/application-configuration-production" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../config-repos/application-configuration-staging" vcs="Git" />
+  </component>
+</project>

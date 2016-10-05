@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Start-Class: nl.maxvandewiel.Application
+Spring-Boot-Version: 1.3.5.RELEASE
+Main-Class: org.springframework.boot.loader.JarLauncher

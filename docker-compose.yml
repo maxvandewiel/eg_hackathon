@@ -1,0 +1,165 @@
+version: '2'
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+        - "5672:5672"
+        - "15672:15672"
+  eureka:
+    image: java:openjdk-8u91-jdk
+    working_dir: /app
+    volumes:
+      - ./eureka-server/build/libs:/app
+    command: java -jar /app/eureka-server.jar --server.port=8761
+    ports:
+      - "8761:8761"
+    environment:
+          EUREKA_PORT_IP_ADDR: ${DOCKER_HOST_IP}
+  mongodb:
+    image: mongo:3.0.4
+    ports:
+      - "27017:27017"
+    command: mongod --smallfiles
+  userregistration:
+    image: java:openjdk-8u91-jdk
+    working_dir: /app
+    volumes:
+      - ./user-registration-service/build/libs:/app
+    command: java -jar /app/user-registration-service-0.1.0.jar --spring.profiles.active=enableEureka --eureka.client.serviceUrl.defaultZone=http://${DOCKER_HOST_IP}:8761/eureka/
+    ports:
+      - "8081:8081"
+    links:
+      - rabbitmq
+      - eureka
+      - mongodb
+    depends_on:
+      - rabbitmq
+      - eureka
+      - mongodb
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://${DOCKER_HOST_IP}/userregistration
+      SPRING_RABBITMQ_HOST: ${DOCKER_HOST_IP}
+      SPRING_APPLICATION_NAME: userregistration
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+      SPRING_PROFILES_ACTIVE: enableEureka
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://192.168.99.100:8761/eureka/
+  pub1:
+    image: java:openjdk-8u91-jdk
+    working_dir: /app
+    volumes:
+      - ./pub/build/libs:/app
+    command: java -jar /app/pub-0.1.0.jar --spring.profiles.active=enableEureka --eureka.client.serviceUrl.defaultZone=http://${DOCKER_HOST_IP}/eureka/
+    ports:
+      - "8082:8080"
+    links:
+      - rabbitmq
+      - eureka
+    depends_on:
+      - rabbitmq
+      - eureka
+    environment:
+      SPRING_RABBITMQ_HOST: ${DOCKER_HOST_IP}
+      SPRING_APPLICATION_NAME: pub
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+      SPRING_PROFILES_ACTIVE: enableEureka
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://${DOCKER_HOST_IP}:8761/eureka/
+  pub2:
+    image: java:openjdk-8u91-jdk
+    working_dir: /app
+    volumes:
+      - ./pub/build/libs:/app
+    command: java -jar /app/pub-0.1.0.jar --spring.profiles.active=enableEureka --eureka.client.serviceUrl.defaultZone=http://${DOCKER_HOST_IP}:8761/eureka/
+    ports:
+      - "8084:8080"
+    links:
+      - rabbitmq
+      - eureka
+    depends_on:
+      - rabbitmq
+      - eureka
+    environment:
+      SPRING_RABBITMQ_HOST: ${DOCKER_HOST_IP}
+      SPRING_APPLICATION_NAME: pub
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+      SPRING_PROFILES_ACTIVE: enableEureka
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://${DOCKER_HOST_IP}:8761/eureka/
+  pub3:
+    image: java:openjdk-8u91-jdk
+    working_dir: /app
+    volumes:
+      - ./pub/build/libs:/app
+    command: java -jar /app/pub-0.1.0.jar --spring.profiles.active=enableEureka --eureka.client.serviceUrl.defaultZone=http://${DOCKER_HOST_IP}:8761/eureka/
+    ports:
+      - "8085:8080"
+    links:
+      - rabbitmq
+      - eureka
+    depends_on:
+      - rabbitmq
+      - eureka
+    environment:
+      SPRING_RABBITMQ_HOST: 192.168.99.100
+      SPRING_APPLICATION_NAME: pub
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+      SPRING_PROFILES_ACTIVE: enableEureka
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://${DOCKER_HOST_IP}:8761/eureka/
+  ppvvts1:
+    image: java:openjdk-8u91-jdk
+    working_dir: /app
+    volumes:
+      - ./ppv-adapter/build/libs:/app
+    command: java -jar /app/ppv-adapter-0.1.0.jar --spring.profiles.active=enableEureka --eureka.client.serviceUrl.defaultZone=http://${DOCKER_HOST_IP}/eureka/
+    ports:
+      - "8086:8080"
+    links:
+      - rabbitmq
+      - eureka
+    depends_on:
+      - rabbitmq
+      - eureka
+    environment:
+      SPRING_RABBITMQ_HOST: ${DOCKER_HOST_IP}
+      SPRING_APPLICATION_NAME: ppvvts
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+      SPRING_PROFILES_ACTIVE: enableEureka
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://${DOCKER_HOST_IP}:8761/eureka/
+  ppvvts2:
+    image: java:openjdk-8u91-jdk
+    working_dir: /app
+    volumes:
+      - ./ppv-adapter/build/libs:/app
+    command: java -jar /app/ppv-adapter-0.1.0.jar --spring.profiles.active=enableEureka --eureka.client.serviceUrl.defaultZone=http://${DOCKER_HOST_IP}:8761/eureka/
+    ports:
+      - "8087:8080"
+    links:
+      - rabbitmq
+      - eureka
+    depends_on:
+      - rabbitmq
+      - eureka
+    environment:
+      SPRING_RABBITMQ_HOST: ${DOCKER_HOST_IP}
+      SPRING_APPLICATION_NAME: ppvvts
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+      SPRING_PROFILES_ACTIVE: enableEureka
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://${DOCKER_HOST_IP}:8761/eureka/
+  ppvvts3:
+    image: java:openjdk-8u91-jdk
+    working_dir: /app
+    volumes:
+      - ./ppv-adapter/build/libs:/app
+    command: java -jar /app/ppv-adapter-0.1.0.jar --spring.profiles.active=enableEureka --eureka.client.serviceUrl.defaultZone=http://${DOCKER_HOST_IP}:8761/eureka/
+    ports:
+      - "8088:8080"
+    links:
+      - rabbitmq
+      - eureka
+    depends_on:
+      - rabbitmq
+      - eureka
+    environment:
+      SPRING_RABBITMQ_HOST: ${DOCKER_HOST_IP}
+      SPRING_APPLICATION_NAME: ppvvts
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+      SPRING_PROFILES_ACTIVE: enableEureka
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://${DOCKER_HOST_IP}:8761/eureka/

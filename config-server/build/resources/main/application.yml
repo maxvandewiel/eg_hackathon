@@ -1,0 +1,30 @@
+server:
+    port: 8888
+spring:
+  application:
+      name: configserver
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/maxvandewiel/application-configuration
+          searchPaths: '{application}'
+          repos:
+            development:
+              pattern:
+                - '*/development'
+              uri: https://github.com/maxvandewiel/application-configuration-development
+              searchPaths: '{application}'
+            staging:
+              pattern:
+                - '*/staging'
+                - '*/test'
+              uri: https://github.com/maxvandewiel/application-configuration-staging
+              searchPaths: '{application}'
+            production:
+              pattern:
+                - '*/qa'
+                - '*/production'
+              uri: https://github.com/maxvandewiel/application-configuration-production
+              searchPaths: '{application}'
+

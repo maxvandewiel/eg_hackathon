@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../config-repos/application-configuration/application-configuration.iml" filepath="$PROJECT_DIR$/../config-repos/application-configuration/application-configuration.iml" group="configurations" />
+      <module fileurl="file://$PROJECT_DIR$/../config-repos/application-configuration-development/application-configuration-development.iml" filepath="$PROJECT_DIR$/../config-repos/application-configuration-development/application-configuration-development.iml" group="configurations" />
+      <module fileurl="file://$PROJECT_DIR$/../config-repos/application-configuration-production/application-configuration-production.iml" filepath="$PROJECT_DIR$/../config-repos/application-configuration-production/application-configuration-production.iml" group="configurations" />
+      <module fileurl="file://$PROJECT_DIR$/../config-repos/application-configuration-staging/application-configuration-staging.iml" filepath="$PROJECT_DIR$/../config-repos/application-configuration-staging/application-configuration-staging.iml" group="configurations" />
+      <module fileurl="file://$PROJECT_DIR$/../config-server/configuration-management.iml" filepath="$PROJECT_DIR$/../config-server/configuration-management.iml" group="cloud-services" />
+      <module fileurl="file://$PROJECT_DIR$/../ppv-adapter/ppv-adapter.iml" filepath="$PROJECT_DIR$/../ppv-adapter/ppv-adapter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../pub/pub.iml" filepath="$PROJECT_DIR$/../pub/pub.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../eureka-server/service-discovery.iml" filepath="$PROJECT_DIR$/../eureka-server/service-discovery.iml" group="cloud-services" />
+      <module fileurl="file://$PROJECT_DIR$/user-registration-service.iml" filepath="$PROJECT_DIR$/user-registration-service.iml" />
+    </modules>
+  </component>
+</project>

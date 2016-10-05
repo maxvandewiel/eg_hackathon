@@ -1,0 +1,81 @@
+version: '2'
+services:
+  rabbitmq1:
+    build: ./rabbitmq
+    image: rabbitmq:maxcluster1
+    expose:
+        - "5672"
+        - "15672"
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.10
+        ipv6_address: 2001:3984:3989::10
+  rabbitmq2:
+    build: ./rabbitmq
+    image: rabbitmq:maxcluster2
+    expose:
+        - "5672"
+        - "15672"
+    links:
+      - rabbitmq1
+    depends_on:
+      - rabbitmq1
+    environment:
+      - CLUSTERED=true
+      - CLUSTER_WITH=172.16.238.10
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.11
+        ipv6_address: 2001:3984:3989::11
+  eureka1:
+    image: java:openjdk-8u91-jdk
+    working_dir: /app
+    volumes:
+      - ./eureka-server/build/libs:/app
+    command: java -jar /app/eureka-server.jar --server.port=8761
+    expose:
+      - "8761"
+    environment:
+      EUREKA_PORT_IP_ADDR: ${DOCKER_HOST_IP}
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.12
+        ipv6_address: 2001:3984:3989::12
+  eureka2:
+    image: java:openjdk-8u91-jdk
+    working_dir: /app
+    volumes:
+      - ./eureka-server/build/libs:/app
+    command: java -jar /app/eureka-server.jar --server.port=8761
+    expose:
+      - "8761"
+    environment:
+      EUREKA_PORT_IP_ADDR: ${DOCKER_HOST_IP}
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.13
+        ipv6_address: 2001:3984:3989::13
+  haproxy:
+    build: ./haproxy
+    image: haproxy:max
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "8761:8761"
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.14
+        ipv6_address: 2001:3984:3989::14
+
+networks:
+  app_net:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "true"
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.16.238.0/24
+        gateway: 172.16.238.1
+      - subnet: 2001:3984:3989::/64
+        gateway: 2001:3984:3989::1§ 

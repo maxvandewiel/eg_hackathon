@@ -1,0 +1,19 @@
+server:
+  port: 8761
+
+eureka:
+  instance:
+    ipAddr: ${EUREKA_PORT_IP_ADDR}
+    preferIpAddress: true
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.ipAddr}:${server.port}/eureka/
+    server:
+      waitTimeInMsWhenSyncEmpty: 1000
+
+logging:
+  level:
+    - com.netflix.eureka=OFF
+    - com.netflix.discovery=OFF
